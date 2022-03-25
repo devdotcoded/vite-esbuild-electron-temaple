@@ -7,7 +7,6 @@ export interface ViteElectronBuilderOptions {
     preloadFile?: string;
     tsconfig?: string;
     external?: string[];
-    electronBuilderConfig?: string | ElectronBuilderConfiguration;
     afterEsbuildBuild?: () => Promise<void>
 }
 

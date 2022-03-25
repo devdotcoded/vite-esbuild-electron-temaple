@@ -22,11 +22,12 @@ export function resolveOptions(
   );
 
   const {
-    outdir = join(root, "dist/main/"),
+    outdir = viteConfig.command == "build"
+      ? join(root, "app")
+      : join(root, "dist/main/"),
     entryFile = join(root, "src/main/index.ts"),
     preloadFile = join(root, "src/main/preload.ts"),
     tsconfig,
-    electronBuilderConfig,
     afterEsbuildBuild = async () => {},
   } = options;
 
@@ -39,7 +40,6 @@ export function resolveOptions(
       entryFile,
       preloadFile,
       tsconfig,
-      electronBuilderConfig,
       env,
       command,
       external,

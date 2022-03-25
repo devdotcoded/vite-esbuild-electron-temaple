@@ -1,0 +1,21 @@
+{
+  "appId": "com.stupendastic.camera-health-cheker",
+  "productName": "Stupendastic Camera Health Checker",
+  "directories": {
+    "output": "dist",
+    "buildResources": "build",
+    "app": "app"
+  },
+  "mac": {
+    "icon": "build/icons/icon.icns",
+    "target": [
+      {
+        "target": "zip",
+        "arch": [
+          
+          "arm64"
+        ]
+      }
+    ]
+  }
+}

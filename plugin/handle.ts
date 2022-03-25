@@ -1,10 +1,10 @@
 import chalk from "chalk";
 import { ChildProcess, spawn } from "child_process";
 import electron from "electron";
-import { build as electronBuilder } from "electron-builder";
 import { build } from "esbuild";
 import { join } from "path";
 import { createEsbuildOptions } from "./esbuild.options";
+import { prompt } from "./prompt";
 import { ResolvedViteElectronBuilderOptions } from "./types";
 
 function runMainProcess(mainFile: string) {
@@ -16,18 +16,32 @@ export function handleDev(options: ResolvedViteElectronBuilderOptions) {
   const mainFile = join(outdir, "index.js");
   const esbuildOptions = createEsbuildOptions(options);
 
+  let stopPromptToRunElectron: () => void = () => {};
+
   let child: ChildProcess;
   build({
     ...esbuildOptions,
     watch: {
-      onRebuild(error) {
+      onRebuild: async (error) => {
+        stopPromptToRunElectron();
+
         if (error) {
           console.error(chalk.red("Rebuild Failed:"), error);
-        } else {
-          console.log(chalk.green("Rebuild Succeeded"));
+          return;
+        }
+
+        const [readAnswer, stop] = prompt(
+          "Rebuild Succeeded. Need rerun Electron?"
+        );
+        stopPromptToRunElectron = stop;
+
+        if (await readAnswer()) {
           if (child) child.kill();
           child = runMainProcess(mainFile);
         }
+
+        if (child) child.kill();
+        child = runMainProcess(mainFile);
       },
     },
   }).then(() => {
@@ -38,16 +52,11 @@ export function handleDev(options: ResolvedViteElectronBuilderOptions) {
 }
 
 export function handleBuild(options: ResolvedViteElectronBuilderOptions) {
-  const { electronBuilderConfig } = options;
   const esbuildOptions = createEsbuildOptions(options);
 
   build(esbuildOptions)
     .then(async () => {
       await options.afterEsbuildBuild();
-
-      await electronBuilder({
-        config: electronBuilderConfig,
-      });
 
       console.log(chalk.green("Main Process Build Succeeded."));
     })

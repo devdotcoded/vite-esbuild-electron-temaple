@@ -801,6 +801,13 @@ crc@^3.8.0:
   dependencies:
     buffer "^5.1.0"
 
+cross-env@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-7.0.3.tgz#865264b29677dc015ba8418918965dd232fc54cf"
+  integrity sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==
+  dependencies:
+    cross-spawn "^7.0.1"
+
 cross-spawn@^7.0.1, cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.npmmirror.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
@@ -937,7 +944,7 @@ ejs@^3.1.6:
 
 electron-builder@^22.14.13:
   version "22.14.13"
-  resolved "https://registry.npmmirror.com/electron-builder/-/electron-builder-22.14.13.tgz#fd40564685cf5422a8f8d667940af3d3776f4fb8"
+  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-22.14.13.tgz#fd40564685cf5422a8f8d667940af3d3776f4fb8"
   integrity sha512-3fgLxqF2TXVKiUPeg74O4V3l0l3j7ERLazo8sUbRkApw0+4iVAf2BJkHsHMaXiigsgCoEzK/F4/rB5rne/VAnw==
   dependencies:
     "@types/yargs" "^17.0.1"

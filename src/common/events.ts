@@ -1,6 +1,6 @@
 export enum EVENTS {
   // Invoke
-  SEND_MSG = 8888,
+  SEND_MSG,
   // On
-  REPLY_MSG = "REPLY_MSG",
+  REPLY_MSG,
 }

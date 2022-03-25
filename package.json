@@ -7,7 +7,14 @@
         "dev": "rimraf dist && vite",
         "build": "rimraf dist && vite build",
         "postinstall": "electron-builder install-app-deps",
-        "postuninstall": "electron-builder install-app-deps"
+        "postuninstall": "electron-builder install-app-deps",
+        "pack": "yarn run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder -c ./electron-builder.json --mac",
+        "pack:all": "yarn run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder -c ./electron-builder.json --win --linux --mac",
+        "pack:win": "yarn run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder -c ./electron-builder.json --win",
+        "pack:mac": "yarn run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder -c ./electron-builder.json --mac",
+        "pack:linux": "yarn run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder -c ./electron-builder.json --linux",
+        "rebuild": "electron-rebuild",
+        "preview": "yarn build && cross-env NODE_ENV=production electron ./app/"
     },
     "dependencies": {
         "bytenode": "^1.3.4",
@@ -19,6 +26,7 @@
         "@vitejs/plugin-vue": "^2.2.4",
         "@vue/compiler-sfc": "^3.2.31",
         "chalk": "^4.1.2",
+        "cross-env": "^7.0.3",
         "electron": "^17.1.2",
         "electron-builder": "^22.14.13",
         "esbuild": "^0.14.25",
