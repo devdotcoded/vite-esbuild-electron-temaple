@@ -1,3 +1,4 @@
+import reactRefresh from "@vitejs/plugin-react-refresh";
 import { compileFile } from "bytenode";
 import { writeFileSync } from "fs";
 import { join } from "path";
@@ -7,6 +8,7 @@ import { VitePluginElectronBuilder } from "./plugin";
 export default defineConfig({
   root: join(__dirname, "src/render"),
   plugins: [
+    reactRefresh(),
     VitePluginElectronBuilder({
       root: process.cwd(),
       tsconfig: "./tsconfig.main.json",
