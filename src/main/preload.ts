@@ -2,8 +2,8 @@ import { contextBridge, ipcRenderer } from "electron";
 
 export const exposedApi = {
   invoke: ipcRenderer.invoke,
-  on: (event, callback: (...args: any[]) => void) =>
-    ipcRenderer.on(event, callback),
+  on: (event, callback: (arg: any) => void) =>
+    ipcRenderer.on(event, (_, args) => callback(args)),
   removeAllListeners: ipcRenderer.removeAllListeners,
 };
 

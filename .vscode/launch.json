@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "Attach",
+            "port": 9229,
+            "request": "attach",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "sourceMaps": true,
+            "remoteRoot": "src/main"
+        },
+      
+        {
+            "name": "Render",
+            "port": 9222,
+            "request": "attach",
+            "type": "chrome",
+            "webRoot": "${workspaceFolder}"
+        },
+    ]
+}

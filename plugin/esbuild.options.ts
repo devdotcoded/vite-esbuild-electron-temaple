@@ -13,7 +13,8 @@ export function createEsbuildOptions(
     {}
   );
 
-  const { entryFile, outdir, tsconfig, external, preloadFile } = options;
+  const { entryFile, outdir, tsconfig, external, preloadFile, command } =
+    options;
   return {
     entryPoints: [entryFile, preloadFile],
     target: "es2020",
@@ -23,7 +24,8 @@ export function createEsbuildOptions(
     platform: "node",
     define,
     tsconfig,
-    plugins: [esbuildDecorators({ tsconfig })],
+    sourcemap: command !== "build",
+    plugins: [esbuildDecorators({ tsconfig, force: false })],
     external,
   };
 }

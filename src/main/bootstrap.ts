@@ -32,22 +32,19 @@ export async function bootstrap(webContents: WebContents) {
       if (event) {
         ipcMain.handle(event, async (e, ...args) => {
           try {
-            const result = await controller[funcName].call(controller, ...args);
-
             return {
-              data: result,
+              data: await controller[funcName].call(controller, ...args), 
             };
           } catch (error) {
             console.log(error);
             return {
-              error: error,
-            }; 
+              error,
+            };
           }
         });
       } else {
         event = Reflect.getMetadata("ipc-emit", proto, funcName);
         if (!event) return;
-
         const func = controller[funcName];
         controller[funcName] = async (...args: any[]) => {
           const result = await func.call(controller, ...args);
@@ -61,7 +58,7 @@ export async function bootstrap(webContents: WebContents) {
 
 export function destroy() {
   for (const EVENT in EVENTS) {
-    ipcMain.removeHandler(EVENTS[EVENT]);
+    ipcMain.removeHandler(EVENT.toString());
   }
 
   for (const exist in ExistInjectable) {

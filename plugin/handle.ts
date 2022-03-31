@@ -8,7 +8,13 @@ import { prompt } from "./prompt";
 import { ResolvedViteElectronBuilderOptions } from "./types";
 
 function runMainProcess(mainFile: string) {
-  return spawn(electron as any, [mainFile], { stdio: "inherit" });
+  return spawn(
+    electron as any,
+    ["--inspect=9229", "--remote-debugging-port=9222", mainFile],
+    {
+      stdio: "inherit",
+    }
+  );
 }
 
 export function handleDev(options: ResolvedViteElectronBuilderOptions) {
@@ -31,17 +37,15 @@ export function handleDev(options: ResolvedViteElectronBuilderOptions) {
         }
 
         const [readAnswer, stop] = prompt(
-          "Rebuild Succeeded. Need rerun Electron?"
+          chalk.green("Rebuild Succeeded. Need rerun Electron?")
         );
+
         stopPromptToRunElectron = stop;
 
         if (await readAnswer()) {
           if (child) child.kill();
           child = runMainProcess(mainFile);
         }
-
-        if (child) child.kill();
-        child = runMainProcess(mainFile);
       },
     },
   }).then(() => {
@@ -57,7 +61,6 @@ export function handleBuild(options: ResolvedViteElectronBuilderOptions) {
   build(esbuildOptions)
     .then(async () => {
       await options.afterEsbuildBuild();
-
       console.log(chalk.green("Main Process Build Succeeded."));
     })
     .catch((error) => {

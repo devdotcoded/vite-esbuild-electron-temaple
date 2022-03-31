@@ -21,9 +21,12 @@ export function resolveOptions(
     ])
   );
 
+  const devFile = join(root, "src/main/index.ts");
+  const prodFile = join(root, "src/main/index.prod.ts");
+
   const {
     outdir = join(root, "app/main"),
-    entryFile = join(root, "src/main/index.ts"),
+    entryFile = viteConfig.command === "build" ? prodFile : devFile,
     preloadFile = join(root, "src/main/preload.ts"),
     tsconfig,
     afterEsbuildBuild = async () => {},

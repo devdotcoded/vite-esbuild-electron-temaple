@@ -6,27 +6,26 @@ export default () => {
   const [log, setLog] = useState("");
   const [message, setMessage] = useState("");
   const sendMsgToMainProcess = useAction<string>(EVENTS.SEND_MSG);
+  const onMessageRecived = useWaitForAction<string>(EVENTS.REPLY_MSG);
 
   useEffect(
     () =>
-      useWaitForAction<string>(EVENTS.SEND_MSG, (msg) => {
-        setLog(`${log}[main]: ${msg}  </br>`);
-      }),
+      onMessageRecived((msg) => setLog((prev) => `${prev}[main]: ${msg}  \n`)),
     []
   );
 
   const sendMsg = async () => {
     try {
-      setLog(`${log}[render]: ${message} </br>`);
+      setLog((prev) => `${prev}[render]: ${message} \n`);
       const { data } = await sendMsgToMainProcess(message);
-      setLog(`[main]: ${data}  </br>`);
+      setLog((prev) => `${prev}[main]: ${data}  \n`);
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <>
+    <main>
       <h1>Hello, world!</h1>
       <input
         type="text"
@@ -35,6 +34,6 @@ export default () => {
       />
       <button onClick={sendMsg}>Send</button>
       <div>{log}</div>
-    </>
+    </main>
   );
 };
