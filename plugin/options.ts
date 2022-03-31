@@ -22,9 +22,7 @@ export function resolveOptions(
   );
 
   const {
-    outdir = viteConfig.command == "build"
-      ? join(root, "app")
-      : join(root, "dist/main/"),
+    outdir = join(root, "app/main"),
     entryFile = join(root, "src/main/index.ts"),
     preloadFile = join(root, "src/main/preload.ts"),
     tsconfig,

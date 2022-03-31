@@ -1,4 +1,3 @@
-import vue from "@vitejs/plugin-vue";
 import { compileFile } from "bytenode";
 import { writeFileSync } from "fs";
 import { join } from "path";
@@ -8,27 +7,26 @@ import { VitePluginElectronBuilder } from "./plugin";
 export default defineConfig({
   root: join(__dirname, "src/render"),
   plugins: [
-    vue(),
     VitePluginElectronBuilder({
       root: process.cwd(),
       tsconfig: "./tsconfig.main.json",
       afterEsbuildBuild: async () => {
         await compileFile({
-          filename: "./app/index.js",
-          output: "./app/main.jsc",
+          filename: "./app/main/index.js",
+          output: "./app/main/main.jsc",
           electron: true,
         });
         await compileFile({
-          filename: "./app/preload.js",
-          output: "./app/preload.jsc",
+          filename: "./app/main/preload.js",
+          output: "./app/main/preload.jsc",
           electron: true,
         });
         writeFileSync(
-          "./app/index.js",
+          "./app/main/index.js",
           "require('bytenode');require('./main.jsc')"
         );
         writeFileSync(
-          "./app/preload.js",
+          "./app/main/preload.js",
           "require('bytenode');require('./preload.jsc')"
         );
       },

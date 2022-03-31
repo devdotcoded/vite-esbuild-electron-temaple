@@ -3,7 +3,7 @@ import { join } from "path";
 import { app, BrowserWindow } from "electron";
 import { bootstrap, destroy } from "./bootstrap";
 
-const isDev = !process.env.NODE_ENV || process.env.NODE_ENV === "development";
+const isDev = process.env.NODE_ENV === "development";
 
 process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 

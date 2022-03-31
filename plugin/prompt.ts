@@ -10,14 +10,12 @@ export function prompt(question: string): [() => Promise<boolean>, () => void] {
     output,
   });
 
-  const questionAndPrompt = `${chalk.green("?")} ${question} (Y/n) `;
-
   let answerResolve: (answer: boolean) => void = () => {};
   const answerPromise = new Promise<boolean>((r) => {
     answerResolve = r;
   });
 
-  rl.question(questionAndPrompt, (answer) => {
+  rl.question(`${chalk.green("?")} ${question} (Y/n)`, (answer) => {
     answerResolve(answer === "Y" || answer == "y");
     rl.close();
   });

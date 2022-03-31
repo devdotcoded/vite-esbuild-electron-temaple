@@ -4,7 +4,4 @@ dist
 dist-ssr
 *.local
 app/render
-app/index.js
-app/main.jsc
-app/preload.js
-app/preload.jsc
+app/main
