@@ -1,4 +1,3 @@
-import { esbuildDecorators } from "@anatine/esbuild-decorators";
 import { BuildOptions } from "esbuild";
 import { ResolvedViteElectronBuilderOptions } from "./types";
 
@@ -25,7 +24,6 @@ export function createEsbuildOptions(
     define,
     tsconfig,
     sourcemap: command !== "build",
-    plugins: [esbuildDecorators({ tsconfig, force: false })],
     external,
   };
 }

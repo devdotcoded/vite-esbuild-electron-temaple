@@ -1,6 +1,6 @@
 {
-  "appId": "com.stupendastic.camera-health-cheker",
-  "productName": "Stupendastic Camera Health Checker",
+  "appId": "com.app.awesome.your",
+  "productName": "Your Awesome App",
   "directories": {
     "output": "dist",
     "buildResources": "resources",

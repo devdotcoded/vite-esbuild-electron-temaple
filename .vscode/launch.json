@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Attach",
+            "name": "Main",
             "port": 9229,
             "request": "attach",
             "skipFiles": [

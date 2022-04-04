@@ -1,25 +1,29 @@
-import { EVENTS } from "@common/events";
-import { IpcResponse } from "@common/types";
+import { Construct, IpcResponse } from "@common/infraestructure/bridge-types";
 
-export function useAction<T = any>(actionName: EVENTS) {
-  return async (args) => {
-    const response: IpcResponse<T> = await window.electron.invoke(
-      actionName.toString(),
+export function useAction<T, R>(action: Construct<T>) {
+  return async (args: T) => {
+    const response: IpcResponse<R> = await window.electron.invoke(
+      action.name,
       args
     );
     if (response.hasOwnProperty("error")) {
-      throw response;
+      throw response.error;
     }
 
-    return response;
+    return response.data;
   };
 }
 
-export function useWaitForAction<T = any>(event: EVENTS) {
+export function onAction<T>(action: Construct<T>) {
   return (callback: (args: T) => void) => {
-    window.electron.on(event.toString(), (args: T) => callback(args));
+    window.electron.on(action.name, (args: IpcResponse<T>) => {
+      if (args.hasOwnProperty("error")) {
+        throw args.error;
+      }
+      callback(args.data);
+    });
     return () => {
-      window.electron.removeAllListeners(event.toString());
+      window.electron.removeAllListeners(action.name);
     };
   };
 }

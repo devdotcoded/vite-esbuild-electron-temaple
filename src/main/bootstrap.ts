@@ -1,67 +1,46 @@
-import { EVENTS } from "@common/events";
+import Actions from "@main/src/Actions";
 import { ipcMain, WebContents } from "electron";
-import { MyController } from "./Controllers";
+import { ActionHandler } from "./src/infraestructure/AbstractActionHandler";
 
-export type Construct<T = any> = new (...args: Array<any>) => T;
-
-const controllers: Construct[] = [MyController];
-
-const ExistInjectable = {};
-function factory<T>(constructor: Construct<T>): T {
-  const paramtypes = Reflect.getMetadata("design:paramtypes", constructor);
-  const providers = paramtypes.map((provider: Construct<T>) => {
-    const name = Reflect.getMetadata("name", provider);
-    const item = ExistInjectable[name] || factory(provider);
-    ExistInjectable[name] = item;
-    return item;
-  });
-  return new constructor(...providers);
-}
+let initializedActionHandlers: {
+  [key: string]: ActionHandler<any, any>;
+} = {};
 
 export async function bootstrap(webContents: WebContents) {
-  for (const ControllerClass of controllers) {
-    const controller = factory(ControllerClass);
-    const proto = ControllerClass.prototype;
-    const funcs = Object.getOwnPropertyNames(proto).filter(
-      (item) => typeof controller[item] === "function" && item !== "constructor"
+  Actions.forEach((actionHandler) => {
+    const actionHandlerName = actionHandler.name;
+
+    if (initializedActionHandlers[actionHandlerName]) {
+      return;
+    }
+    initializedActionHandlers[actionHandlerName] = new actionHandler(
+      webContents
     );
 
-    funcs.forEach((funcName) => {
-      let event: string | null = null;
-      event = Reflect.getMetadata("ipc-invoke", proto, funcName);
-      if (event) {
-        ipcMain.handle(event, async (e, ...args) => {
-          try {
-            return {
-              data: await controller[funcName].call(controller, ...args), 
-            };
-          } catch (error) {
-            console.log(error);
-            return {
-              error,
-            };
-          }
-        });
-      } else {
-        event = Reflect.getMetadata("ipc-emit", proto, funcName);
-        if (!event) return;
-        const func = controller[funcName];
-        controller[funcName] = async (...args: any[]) => {
-          const result = await func.call(controller, ...args);
-          webContents.send(event, result);
-          return result;
-        };
+    ipcMain.handle(
+      initializedActionHandlers[actionHandlerName].getAction().name,
+      async (_, data: any): Promise<any> => {
+        try {
+          return {
+            data: await initializedActionHandlers[actionHandlerName].handle(
+              data
+            ),
+          };
+        } catch (error) {
+          return {
+            error,
+          };
+        }
       }
-    });
-  }
+    );
+  });
 }
 
-export function destroy() {
-  for (const EVENT in EVENTS) {
-    ipcMain.removeHandler(EVENT.toString());
-  }
-
-  for (const exist in ExistInjectable) {
-    ExistInjectable[exist].destroy && ExistInjectable[exist].destroy();
-  }
+export async function destroy() {
+  Object.keys(initializedActionHandlers).forEach((actionHandlerName) => {
+    ipcMain.removeHandler(
+      initializedActionHandlers[actionHandlerName].getAction().name
+    );
+  });
+  initializedActionHandlers = {};
 }
