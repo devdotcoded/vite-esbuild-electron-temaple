@@ -18,9 +18,7 @@ export class SendMessageHandler extends ActionHandler<
       this.sendAsyncAwesomeMessage("Awesome message ;)");
     }, 2000);
 
-    return {
-      message: `Hello from the other side!: ${message}`,
-    };
+    return new SendMessageResponse(`Hello from the other side!: ${message}`);
   }
 
   private sendAsyncAwesomeMessage(message: string): void {
