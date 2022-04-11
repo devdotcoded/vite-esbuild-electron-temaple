@@ -5,3 +5,4 @@ dist-ssr
 *.local
 app/render
 app/main
+.eslintcache
