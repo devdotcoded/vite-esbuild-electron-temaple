@@ -1,6 +1,6 @@
 import Actions from "@main/src/Actions";
+import { ActionHandler } from "@main/src/infraestructure/AbstractActionHandler";
 import { ipcMain, WebContents } from "electron";
-import { ActionHandler } from "./src/infraestructure/AbstractActionHandler";
 
 let initializedActionHandlers: {
   [key: string]: ActionHandler<any, any>;

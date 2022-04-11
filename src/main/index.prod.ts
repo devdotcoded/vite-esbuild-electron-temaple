@@ -1,6 +1,6 @@
+import { createWindow } from "@main/main";
 import { app, BrowserWindow } from "electron";
 import { join } from "path";
-import { createWindow } from "./main";
 
 async function create() {
   const win = await createWindow(false, false);

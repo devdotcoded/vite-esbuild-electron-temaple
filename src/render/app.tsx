@@ -3,8 +3,8 @@ import {
   SendMessage,
   SendMessageResponse,
 } from "@common/src/domain/actions/messages/SendMessage";
+import { onAction, useAction } from "@render/hooks/api";
 import React, { useEffect, useState } from "react";
-import { onAction, useAction } from "./hooks/api";
 
 export default () => {
   const [log, setLog] = useState("");
@@ -27,15 +27,11 @@ export default () => {
 
   const sendMsg = async () => {
     try {
-      setLog(
-        (prev) => `${prev}Sending to main process: ${message} \n`
-      );
+      setLog((prev) => `${prev}Sending to main process: ${message} \n`);
 
       const response = await sendMsgToMainProcess(new SendMessage(message));
 
-      setLog(
-        (prev) => `${prev}Reciving from main: ${response.message}  \n`
-      );
+      setLog((prev) => `${prev}Reciving from main: ${response.message}  \n`);
     } catch (error) {
       console.error(error);
     }

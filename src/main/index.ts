@@ -1,5 +1,5 @@
+import { createWindow } from "@main/main";
 import { app, BrowserWindow } from "electron";
-import { createWindow } from "./main";
 
 async function create() {
   const win = await createWindow(true, false);

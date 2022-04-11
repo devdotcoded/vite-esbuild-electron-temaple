@@ -6,7 +6,7 @@ export function useAction<T, R>(action: Construct<T>) {
       action.name,
       args
     );
-    if (response.hasOwnProperty("error")) {
+    if (response.error) {
       throw response.error;
     }
 
@@ -17,7 +17,7 @@ export function useAction<T, R>(action: Construct<T>) {
 export function onAction<T>(action: Construct<T>) {
   return (callback: (args: T) => void) => {
     window.electron.on(action.name, (args: IpcResponse<T>) => {
-      if (args.hasOwnProperty("error")) {
+      if (args.error) {
         throw args.error;
       }
       callback(args.data);

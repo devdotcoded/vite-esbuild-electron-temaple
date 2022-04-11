@@ -1,6 +1,6 @@
+import { bootstrap, destroy } from "@main/bootstrap";
 import { app, BrowserWindow } from "electron";
 import { join } from "path";
-import { bootstrap, destroy } from "./bootstrap";
 
 process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 
@@ -50,5 +50,4 @@ if (process.platform === "win32") {
   process.on("SIGTERM", () => {
     app.quit();
   });
-} 
-  
+}

@@ -1,0 +1,34 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "simple-import-sort"
+    ],
+    "rules": {
+        "react/no-inline-styles": "off",
+        "react/display-name": "off",
+        "prettier/prettier": "warn",
+        "@typescript-eslint/no-explicit-any": "off",
+        "simple-import-sort/imports": "warn",
+        "simple-import-sort/exports": "warn"
+    },
+    "settings": {
+        "react": {
+            "version": "18"
+        }
+    }
+}
