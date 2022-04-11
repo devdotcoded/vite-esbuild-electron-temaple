@@ -14,7 +14,7 @@ Uses vite for building and serving renderer process and esbuild for building mai
 
 ## How to use and how to communicate processes
 
-There are a **Actions** in main process that must be extended from abstract class **ActionHandler**. Every action must be exported in _src/Actions/index.ts_. _([Example of implemented ActionHandler]("https://github.com/devdotcoded/vite-esbuild-electron-temaple/blob/main/src/main/src/Actions/messages/SendMessageHandler.ts"))_
+There are a **Actions** in main process that must be extended from abstract class **ActionHandler**. Every action must be exported in _src/Actions/index.ts_. ([Example of implemented ActionHandler]("https://github.com/devdotcoded/vite-esbuild-electron-temaple/blob/main/src/main/src/Actions/messages/SendMessageHandler.ts")).
 
 All action handler must be implement **handle** method that is used to handle event called from render process, and **getAction** method that returns the class of action.
 
