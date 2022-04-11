@@ -11,7 +11,7 @@
         "pack:win": "yarn run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder -c ./electron-builder.json --win",
         "pack:mac": "yarn run build && cross-env CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder -c ./electron-builder.json --mac",
         "preview": "yarn build && cross-env NODE_ENV=production electron ./app/",
-        "lint": "eslint --fix ./src/**/*.ts ./src/**/*.tsx ",
+        "lint": "eslint --fix ./src/**/*.ts ./src/**/*.tsx",
         "prepare": "husky install"
     },
     "dependencies": {
