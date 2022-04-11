@@ -1,4 +1,5 @@
 import { BuildOptions } from "esbuild";
+
 import { ResolvedViteElectronBuilderOptions } from "./types";
 
 export function createEsbuildOptions(

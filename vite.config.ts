@@ -3,6 +3,7 @@ import { compileFile } from "bytenode";
 import { writeFileSync } from "fs";
 import { join } from "path";
 import { defineConfig } from "vite";
+
 import { VitePluginElectronBuilder } from "./plugin";
 
 export default defineConfig({

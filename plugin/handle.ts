@@ -3,6 +3,7 @@ import { ChildProcess, spawn } from "child_process";
 import electron from "electron";
 import { build } from "esbuild";
 import { join } from "path";
+
 import { createEsbuildOptions } from "./esbuild.options";
 import { prompt } from "./prompt";
 import { ResolvedViteElectronBuilderOptions } from "./types";

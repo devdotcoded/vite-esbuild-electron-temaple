@@ -1,6 +1,7 @@
 import { builtinModules } from "module";
 import { join } from "path";
 import { ResolvedConfig } from "vite";
+
 import {
   ResolvedViteElectronBuilderOptions,
   ViteElectronBuilderOptions,

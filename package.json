@@ -1,7 +1,8 @@
 {
-    "name": "fast-vite-electron",
-    "description": "Vite + Electron with esbuild, so fast! ⚡",
+    "name": "vite-esbuild-electron-template",
+    "description": "vite esbuild electron template",
     "main": "app/main/index.js",
+    "license": "MIT",
     "scripts": {
         "dev": "rimraf app/main app/render && cross-env NODE_ENV=development && vite",
         "build": "rimraf app/main app/render && cross-env NODE_ENV=development && vite build",
