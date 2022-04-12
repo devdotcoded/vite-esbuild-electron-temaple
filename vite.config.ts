@@ -1,10 +1,23 @@
 import reactRefresh from "@vitejs/plugin-react-refresh";
 import { compileFile } from "bytenode";
-import { writeFileSync } from "fs";
-import { join } from "path";
+import { rename, writeFile } from "fs/promises";
+import { basename, dirname, extname, join } from "path";
 import { defineConfig } from "vite";
 
 import { VitePluginElectronBuilder } from "./plugin";
+
+async function Ofusque(filename: string) {
+  const fileName = basename(filename, extname(filename));
+  const dir = dirname(filename);
+
+  await compileFile({
+    filename,
+    output: join(dir, `${fileName}.jsc`),
+    electron: true,
+  });
+
+  await writeFile(filename, `require('bytenode');require('./${fileName}.jsc')`);
+}
 
 export default defineConfig({
   root: join(__dirname, "src/render"),
@@ -14,24 +27,9 @@ export default defineConfig({
       root: process.cwd(),
       tsconfig: "./tsconfig.main.json",
       afterEsbuildBuild: async () => {
-        await compileFile({
-          filename: "./app/main/index.js",
-          output: "./app/main/main.jsc",
-          electron: true,
-        });
-        await compileFile({
-          filename: "./app/main/preload.js",
-          output: "./app/main/preload.jsc",
-          electron: true,
-        });
-        writeFileSync(
-          "./app/main/index.js",
-          "require('bytenode');require('./main.jsc')"
-        );
-        writeFileSync(
-          "./app/main/preload.js",
-          "require('bytenode');require('./preload.jsc')"
-        );
+        await rename("./app/main/index.prod.js", "./app/main/index.js");
+        await Ofusque("./app/main/index.js");
+        await Ofusque("./app/main/preload.js");
       },
     }),
   ],
